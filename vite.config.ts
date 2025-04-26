@@ -24,7 +24,8 @@ export default defineConfig(({ mode }: { mode: string }) => ({
   build: {
     outDir: 'dist',
     sourcemap: mode === 'development',
-    minify: 'terser',
+    minify: mode === 'production' ? "terser" : false,
+    reportCompressedSize: false, // Speeds up build
     rollupOptions: {
       output: {
         manualChunks: {
@@ -32,14 +33,22 @@ export default defineConfig(({ mode }: { mode: string }) => ({
             'react',
             'react-dom',
             'react-router-dom'
+          ],
+          ui: [
+            // Split UI components into separate chunk
+            'src/components/ui'
           ]
-        }
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
       }
     },
     terserOptions: {
       compress: {
         drop_console: mode === 'production',
-        drop_debugger: mode === 'production'
+        drop_debugger: mode === 'production',
+        pure_funcs: mode === 'production' ? ['console.log', 'console.debug'] : []
       }
     },
     chunkSizeWarningLimit: 1000
