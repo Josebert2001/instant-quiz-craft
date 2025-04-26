@@ -12,7 +12,7 @@ export const generateQuizWithGroq = async (topic: string): Promise<QuizQuestion[
   }
 
   try {
-    const response = await fetch('https://api.groq.com/v1/completions', {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
