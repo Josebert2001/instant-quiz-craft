@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { TopicInput } from "@/components/TopicInput";
 import { Quiz, Question } from "@/components/Quiz";
@@ -38,6 +39,9 @@ const Index = () => {
           <p className="text-lg text-gray-600 mb-8">
             Generate quizzes on any topic instantly
           </p>
+          
+          {/* Add the ApiKeyInput component here */}
+          <ApiKeyInput />
         </div>
 
         {!questions && (
