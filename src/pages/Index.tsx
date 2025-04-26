@@ -1,8 +1,6 @@
-
 import { useState } from "react";
 import { TopicInput } from "@/components/TopicInput";
 import { Quiz, Question } from "@/components/Quiz";
-import { ApiKeyInput } from "@/components/ApiKeyInput";
 import { generateQuizWithGroq } from "@/utils/groqApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -39,9 +37,6 @@ const Index = () => {
           <p className="text-lg text-gray-600 mb-8">
             Generate quizzes on any topic instantly
           </p>
-          
-          {/* Add the ApiKeyInput component here */}
-          <ApiKeyInput />
         </div>
 
         {!questions && (
