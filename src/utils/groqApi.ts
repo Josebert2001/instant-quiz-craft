@@ -4,12 +4,13 @@ interface QuizQuestion {
   correctAnswer: string;
 }
 
-const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+// Try to get API key from either local env or Vercel env
+const apiKey = import.meta.env.VITE_GROQ_API_KEY || process.env.GROQ_API_KEY;
 if (!apiKey) {
   console.error('Missing GROQ API key. Please follow these steps to set it up:\n' +
-    '1. Copy .env.example to .env\n' +
-    '2. Add your Groq API key to the .env file\n' +
-    '3. Restart the development server');
+    '1. For local development: Copy .env.example to .env and add your Groq API key\n' +
+    '2. For Vercel deployment: Add GROQ_API_KEY to your Vercel environment variables\n' +
+    '3. Restart the development server or redeploy');
   throw new Error('No API key found. Please set your Groq API key in the environment variables.');
 }
 
