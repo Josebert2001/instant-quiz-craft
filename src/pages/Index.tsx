@@ -1,55 +1,29 @@
-
 import { useState } from "react";
 import { TopicInput } from "@/components/TopicInput";
 import { Quiz, Question } from "@/components/Quiz";
-
-// Temporary mock data generator - replace with AI API call later
-const generateMockQuestions = (topic: string): Question[] => {
-  return [
-    {
-      question: `What is the main focus of ${topic}?`,
-      options: [
-        "Understanding core concepts",
-        "Memorizing facts",
-        "Practical applications",
-        "Historical context",
-      ],
-      correctAnswer: "Understanding core concepts",
-    },
-    {
-      question: `Which of these is most related to ${topic}?`,
-      options: [
-        "Theoretical framework",
-        "Scientific method",
-        "Data analysis",
-        "Research methodology",
-      ],
-      correctAnswer: "Theoretical framework",
-    },
-    {
-      question: `Who is considered the founder of modern ${topic}?`,
-      options: [
-        "Ancient scholars",
-        "Contemporary researchers",
-        "Scientific pioneers",
-        "Academic institutions",
-      ],
-      correctAnswer: "Scientific pioneers",
-    },
-  ];
-};
+import { ApiKeyInput } from "@/components/ApiKeyInput";
+import { generateQuizWithGroq } from "@/utils/groqApi";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [questions, setQuestions] = useState<Question[] | null>(null);
+  const { toast } = useToast();
 
   const handleTopicSubmit = async (topic: string) => {
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setQuestions(generateMockQuestions(topic));
+    try {
+      const generatedQuestions = await generateQuizWithGroq(topic);
+      setQuestions(generatedQuestions);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to generate quiz",
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleReset = () => {
@@ -77,4 +51,3 @@ const Index = () => {
 };
 
 export default Index;
-
