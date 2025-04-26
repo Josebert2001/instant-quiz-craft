@@ -21,4 +21,8 @@ export default defineConfig(({ mode }: { mode: string }) => ({
   define: {
     'process.env': {},
   },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
 }));
