@@ -33,10 +33,6 @@ export default defineConfig(({ mode }: { mode: string }) => ({
             'react',
             'react-dom',
             'react-router-dom'
-          ],
-          ui: [
-            // Split UI components into separate chunk
-            'src/components/ui'
           ]
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
