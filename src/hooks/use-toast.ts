@@ -130,8 +130,25 @@ const listeners: Array<(state: State) => void> = []
 
 let memoryState: State = { toasts: [] }
 
+// Try to restore state from storage
+try {
+  const savedState = sessionStorage.getItem('toast-state')
+  if (savedState) {
+    memoryState = JSON.parse(savedState)
+  }
+} catch (error) {
+  console.warn('Failed to restore toast state:', error)
+}
+
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
+  try {
+    // Store serialized state to prevent JSON parsing errors
+    const serializedState = JSON.stringify(memoryState)
+    sessionStorage.setItem('toast-state', serializedState)
+  } catch (error) {
+    console.warn('Failed to serialize toast state:', error)
+  }
   listeners.forEach((listener) => {
     listener(memoryState)
   })
