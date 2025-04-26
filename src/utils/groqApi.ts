@@ -4,8 +4,12 @@ interface QuizQuestion {
   correctAnswer: string;
 }
 
-const apiKey = process.env.VITE_GROQ_API_KEY;
+const apiKey = import.meta.env.VITE_GROQ_API_KEY;
 if (!apiKey) {
+  console.error('Missing GROQ API key. Please follow these steps to set it up:\n' +
+    '1. Copy .env.example to .env\n' +
+    '2. Add your Groq API key to the .env file\n' +
+    '3. Restart the development server');
   throw new Error('No API key found. Please set your Groq API key in the environment variables.');
 }
 
