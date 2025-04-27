@@ -24,7 +24,17 @@ export async function generateQuizWithGroq(topic: string, numQuestions = 10, mod
     body: JSON.stringify({
       model,
       messages: [
-        { role: 'system', content: `Generate a quiz with ${numQuestions} questions on the topic: ${topic}` },
+        { 
+          role: 'system', 
+          content: `You are a quiz generator. Generate a quiz with ${numQuestions} questions on the topic: ${topic}. 
+          Return ONLY a JSON array where each object has the following structure:
+          {
+            "question": "the question text",
+            "options": ["option1", "option2", "option3", "option4"],
+            "correctAnswer": "the correct option text"
+          }
+          Do not include any additional text or explanation, only the JSON array.`
+        },
       ],
     }),
   });
@@ -35,7 +45,29 @@ export async function generateQuizWithGroq(topic: string, numQuestions = 10, mod
 
   const data = await response.json();
 
-  // Parse the response from the LLM to extract the quiz questions
-  const quizContent = JSON.parse(data.choices[0].message.content);
-  return quizContent;
+  try {
+    // First try parsing the content directly
+    const content = data.choices[0].message.content;
+    // Remove any potential markdown code block syntax
+    const cleanContent = content.replace(/```json\n?|\n?```/g, '').trim();
+    const quizContent = JSON.parse(cleanContent);
+    
+    // Validate the structure
+    if (!Array.isArray(quizContent)) {
+      throw new Error('Response is not an array');
+    }
+    
+    // Validate each question
+    quizContent.forEach((q, i) => {
+      if (!q.question || !Array.isArray(q.options) || !q.correctAnswer) {
+        throw new Error(`Invalid question format at index ${i}`);
+      }
+    });
+
+    return quizContent;
+  } catch (error) {
+    console.error('Failed to parse quiz content:', error);
+    console.error('Raw content:', data.choices[0].message.content);
+    throw new Error('Failed to generate valid quiz questions. Please try again.');
+  }
 }
