@@ -25,8 +25,7 @@ export default defineConfig(({ mode }) => {
     },
     // Expose env variables to the client
     define: {
-      'process.env.VITE_GROQ_API_KEY': JSON.stringify(env.VITE_GROQ_API_KEY),
-      'process.env.VERCEL_API_KEY': JSON.stringify(env.VERCEL_API_KEY),
+      'import.meta.env.VITE_GROQ_API_KEY': JSON.stringify(process.env.VITE_GROQ_API_KEY || env.VITE_GROQ_API_KEY),
     },
     build: {
       outDir: 'dist',
