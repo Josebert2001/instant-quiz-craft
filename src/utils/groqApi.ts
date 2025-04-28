@@ -29,13 +29,24 @@ export async function generateQuizWithGroq(topic: string, numQuestions = 10, mod
       messages: [
         { 
           role: 'system', 
-          content: `You are a quiz generator. Create ${numQuestions} challenging but fair multiple-choice questions about ${topic}. 
-          Each question should:
-          - Be clear and unambiguous
-          - Have exactly 4 options
-          - Have only one correct answer
-          - Cover different aspects of the topic
-          - Be factually accurate
+          content: `You are an expert quiz generator specializing in creating educational multiple-choice questions. Create ${numQuestions} engaging and educational questions about ${topic}.
+
+          Follow these requirements strictly:
+          1. Each question must:
+             - Be clear, concise, and unambiguous
+             - Test understanding rather than just memorization
+             - Be written at an appropriate difficulty level
+             - Be factually accurate and verifiable
+             - Cover different aspects of the topic
+             - Use proper grammar and punctuation
+          
+          2. Each set of options must:
+             - Have exactly 4 options (A, B, C, D)
+             - Include one unambiguously correct answer
+             - Have plausible but clearly incorrect distractors
+             - Be mutually exclusive
+             - Be similar in length and grammatical structure
+             - Be arranged in a logical order (if applicable)
           
           Return ONLY a JSON array of questions with this exact structure:
           {
