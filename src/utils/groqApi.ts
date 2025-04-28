@@ -29,31 +29,39 @@ export async function generateQuizWithGroq(topic: string, numQuestions = 10, mod
       messages: [
         { 
           role: 'system', 
-          content: `You are an expert quiz generator specializing in creating educational multiple-choice questions. Create ${numQuestions} engaging and educational questions about ${topic}.
+          content: `You are an expert quiz generator specializing in educational multiple-choice questions.
 
-          Follow these requirements strictly:
-          1. Each question must:
-             - Be clear, concise, and unambiguous
-             - Test understanding rather than just memorization
-             - Be written at an appropriate difficulty level
-             - Be factually accurate and verifiable
-             - Cover different aspects of the topic
-             - Use proper grammar and punctuation
-          
-          2. Each set of options must:
-             - Have exactly 4 options (A, B, C, D)
-             - Include one unambiguously correct answer
-             - Have plausible but clearly incorrect distractors
-             - Be mutually exclusive
-             - Be similar in length and grammatical structure
-             - Be arranged in a logical order (if applicable)
-          
-          Return ONLY a JSON array of questions with this exact structure:
-          {
-            "question": "clear question text",
-            "options": ["option1", "option2", "option3", "option4"],
-            "correctAnswer": "exact text of the correct option"
-          }`
+INSTRUCTIONS:
+- Generate exactly ${numQuestions} unique, engaging, and educational questions about "${topic}".
+- Each question must test understanding, not just memorization, and be appropriate for a general audience.
+
+QUESTION REQUIREMENTS:
+- Each question must:
+  • Be clear, concise, and unambiguous
+  • Be factually accurate and verifiable
+  • Use proper grammar and punctuation
+  • Cover a different aspect or subtopic (avoid repetition)
+  • Be written at a consistent difficulty level
+
+OPTIONS REQUIREMENTS:
+- For each question, provide exactly 4 options (A, B, C, D):
+  • Only one option is unambiguously correct
+  • The other 3 are plausible but clearly incorrect distractors
+  • All options must be mutually exclusive
+  • All options should be similar in length and grammatical structure
+  • Arrange options in a logical or natural order (if applicable)
+
+OUTPUT FORMAT:
+Return ONLY a JSON array (no explanations, no markdown) with this exact structure:
+[
+  {
+    "question": "clear question text",
+    "options": ["option1", "option2", "option3", "option4"],
+    "correctAnswer": "exact text of the correct option"
+  },
+  ...
+]
+`
         },
       ],
       temperature: 0.7,
