@@ -5,13 +5,16 @@ interface QuizQuestion {
 }
 
 // Try to get API key from environment variables
-const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+const apiKey = import.meta.env.VITE_GROQ_API_KEY || process.env.VITE_GROQ_API_KEY;
+
 if (!apiKey) {
-  console.error('Missing GROQ API key. Please follow these steps to set it up:\n' +
-    '1. For local development: Copy .env.example to .env and add your Groq API key\n' +
-    '2. For Vercel deployment: Add VITE_GROQ_API_KEY to your Vercel environment variables\n' +
-    '3. Restart the development server or redeploy');
-  throw new Error('No API key found. Please set your Groq API key in the environment variables.');
+  const isVercel = process.env.VERCEL === '1';
+  const errorMessage = isVercel
+    ? 'GROQ API key not found in Vercel environment. Please add VITE_GROQ_API_KEY in your Vercel project settings under Environment Variables.'
+    : 'GROQ API key not found. Please add VITE_GROQ_API_KEY to your .env file.';
+  
+  console.error(errorMessage);
+  throw new Error(errorMessage);
 }
 
 export async function generateQuizWithGroq(topic: string, numQuestions = 10, model = 'llama-3.3-70b-versatile'): Promise<QuizQuestion[]> {
