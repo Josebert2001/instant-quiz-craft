@@ -38,6 +38,11 @@
     }
   ],
   "env": {
-    "VITE_GROQ_API_KEY": "@vite_groq_api_key"
+    "VITE_GROQ_API_KEY": "@groq_api_key"
+  },
+  "build": {
+    "env": {
+      "VITE_GROQ_API_KEY": "@groq_api_key"
+    }
   }
 }
