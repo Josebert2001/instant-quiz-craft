@@ -11,15 +11,11 @@ export interface QuizSettings {
   model: string;
 }
 
-// Try to get API key from environment variables
-const apiKey = import.meta.env.VITE_GROQ_API_KEY || process.env.VITE_GROQ_API_KEY;
+// Get API key from Vite environment variables
+const apiKey = import.meta.env.VITE_GROQ_API_KEY;
 
 if (!apiKey) {
-  const isVercel = process.env.VERCEL === '1';
-  const errorMessage = isVercel
-    ? 'GROQ API key not found in Vercel environment. Please add VITE_GROQ_API_KEY in your Vercel project settings under Environment Variables.'
-    : 'GROQ API key not found. Please add VITE_GROQ_API_KEY to your .env file.';
-  
+  const errorMessage = 'GROQ API key not found. Please add VITE_GROQ_API_KEY to your .env file.';
   console.error(errorMessage);
   throw new Error(errorMessage);
 }
