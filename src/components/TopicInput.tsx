@@ -65,7 +65,7 @@ export const TopicInput = ({ onSubmit, isLoading }: TopicInputProps) => {
           </div>
 
           {showAdvanced && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-lg">
               <div className="space-y-2">
                 <Label htmlFor="numQuestions">Number of Questions</Label>
                 <Select value={numQuestions.toString()} onValueChange={(value) => setNumQuestions(parseInt(value))}>
@@ -115,7 +115,7 @@ export const TopicInput = ({ onSubmit, isLoading }: TopicInputProps) => {
           <Button
             type="submit"
             disabled={!topic.trim() || isLoading}
-            className="w-full bg-quiz-primary hover:bg-quiz-primary/90 text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             size="lg"
           >
             {isLoading ? "Generating Quiz..." : "Generate Quiz"}

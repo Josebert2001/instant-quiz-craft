@@ -87,11 +87,11 @@ export const Quiz = ({ questions, onReset }: QuizProps) => {
         />
       ))}
 
-      <Card className="sticky bottom-4 bg-white/95 backdrop-blur-sm border-2">
+      <Card className="sticky bottom-4 bg-background/95 backdrop-blur-sm border-2">
         <CardContent className="pt-6">
           {!isSubmitted ? (
             <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 {answeredQuestions === questions.length 
                   ? "All questions answered! Ready to submit?" 
                   : `${questions.length - answeredQuestions} questions remaining`
@@ -100,7 +100,7 @@ export const Quiz = ({ questions, onReset }: QuizProps) => {
               <Button
                 onClick={handleSubmit}
                 disabled={answers.some((answer) => answer === null)}
-                className="bg-quiz-primary hover:bg-quiz-primary/90"
+                className="bg-primary hover:bg-primary/90"
                 size="lg"
               >
                 Submit Quiz
@@ -115,18 +115,18 @@ export const Quiz = ({ questions, onReset }: QuizProps) => {
                     {calculateScore()} / {questions.length}
                   </span>
                 </div>
-                <div className="text-lg font-medium text-quiz-primary mb-1">
+                <div className="text-lg font-medium text-primary mb-1">
                   {getScorePercentage()}% Score
                 </div>
-                <div className="text-gray-600">{getScoreMessage()}</div>
+                <div className="text-muted-foreground">{getScoreMessage()}</div>
               </div>
               
               <div className="flex items-center justify-center gap-6 text-sm">
-                <div className="flex items-center gap-1 text-green-600">
+                <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
                   <CheckCircle className="h-4 w-4" />
                   <span>{calculateScore()} Correct</span>
                 </div>
-                <div className="flex items-center gap-1 text-red-600">
+                <div className="flex items-center gap-1 text-red-600 dark:text-red-400">
                   <XCircle className="h-4 w-4" />
                   <span>{questions.length - calculateScore()} Incorrect</span>
                 </div>

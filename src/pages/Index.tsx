@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TopicInput, QuizSettings } from "@/components/TopicInput";
 import { Quiz, Question } from "@/components/Quiz";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { generateQuizWithGroq } from "@/utils/groqApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -34,11 +35,12 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-quiz-secondary">
+    <div className="min-h-screen bg-background transition-colors">
+      <ThemeToggle />
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-quiz-dark mb-4">QuizCraft AI</h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-4">QuizCraft AI</h1>
+          <p className="text-lg text-muted-foreground mb-8">
             Generate quizzes on any topic instantly
           </p>
         </div>

@@ -26,12 +26,12 @@ export const QuizQuestion = ({
   return (
     <Card className={cn(
       "transition-all duration-200",
-      isSubmitted && selectedAnswer === correctAnswer && "border-green-500 bg-green-50",
-      isSubmitted && selectedAnswer !== correctAnswer && selectedAnswer && "border-red-500 bg-red-50"
+      isSubmitted && selectedAnswer === correctAnswer && "border-green-500 bg-green-50 dark:bg-green-950/20",
+      isSubmitted && selectedAnswer !== correctAnswer && selectedAnswer && "border-red-500 bg-red-50 dark:bg-red-950/20"
     )}>
       <CardHeader>
         <CardTitle className="flex items-start gap-3">
-          <span className="flex-shrink-0 w-8 h-8 bg-quiz-primary text-white rounded-full flex items-center justify-center text-sm font-medium">
+          <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
             {questionNumber}
           </span>
           <span className="leading-relaxed">{question}</span>
@@ -53,10 +53,10 @@ export const QuizQuestion = ({
                 key={index} 
                 className={cn(
                   "flex items-center space-x-3 p-3 rounded-lg border transition-all duration-200",
-                  !isSubmitted && "hover:bg-gray-50 cursor-pointer",
-                  isCorrect && "bg-green-100 border-green-300",
-                  isWrong && "bg-red-100 border-red-300",
-                  !isSubmitted && isSelected && "bg-quiz-secondary border-quiz-primary"
+                  !isSubmitted && "hover:bg-muted/50 cursor-pointer",
+                  isCorrect && "bg-green-100 border-green-300 dark:bg-green-950/30 dark:border-green-700",
+                  isWrong && "bg-red-100 border-red-300 dark:bg-red-950/30 dark:border-red-700",
+                  !isSubmitted && isSelected && "bg-primary/10 border-primary"
                 )}
               >
                 <RadioGroupItem
@@ -72,16 +72,16 @@ export const QuizQuestion = ({
                   htmlFor={`${questionNumber}-${index}`}
                   className={cn(
                     "flex-grow cursor-pointer leading-relaxed",
-                    isCorrect && "text-green-700 font-medium",
-                    isWrong && "text-red-700"
+                    isCorrect && "text-green-700 dark:text-green-300 font-medium",
+                    isWrong && "text-red-700 dark:text-red-300"
                   )}
                 >
                   {option}
                 </Label>
                 {isSubmitted && (
                   <div className="flex-shrink-0">
-                    {isCorrect && <CheckCircle className="h-5 w-5 text-green-600" />}
-                    {isWrong && <XCircle className="h-5 w-5 text-red-600" />}
+                    {isCorrect && <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />}
+                    {isWrong && <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />}
                   </div>
                 )}
               </div>
