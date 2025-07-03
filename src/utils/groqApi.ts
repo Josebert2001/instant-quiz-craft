@@ -4,6 +4,13 @@ interface QuizQuestion {
   correctAnswer: string;
 }
 
+export interface QuizSettings {
+  topic: string;
+  numQuestions: number;
+  difficulty: string;
+  model: string;
+}
+
 // Try to get API key from environment variables
 const apiKey = import.meta.env.VITE_GROQ_API_KEY || process.env.VITE_GROQ_API_KEY;
 
@@ -17,7 +24,22 @@ if (!apiKey) {
   throw new Error(errorMessage);
 }
 
-export async function generateQuizWithGroq(topic: string, numQuestions = 10, model = 'llama-3.3-70b-versatile'): Promise<QuizQuestion[]> {
+const getDifficultyPrompt = (difficulty: string): string => {
+  switch (difficulty) {
+    case 'easy':
+      return 'Generate questions at a beginner level with straightforward concepts and clear, obvious answers. Avoid complex terminology or advanced concepts.';
+    case 'hard':
+      return 'Generate challenging questions that require deep understanding, critical thinking, and knowledge of advanced concepts. Include nuanced details and complex scenarios.';
+    case 'medium':
+    default:
+      return 'Generate questions at an intermediate level that test solid understanding without being overly complex. Balance accessibility with meaningful challenge.';
+  }
+};
+
+export async function generateQuizWithGroq(settings: QuizSettings): Promise<QuizQuestion[]> {
+  const { topic, numQuestions, difficulty, model } = settings;
+  const difficultyPrompt = getDifficultyPrompt(difficulty);
+
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -33,7 +55,8 @@ export async function generateQuizWithGroq(topic: string, numQuestions = 10, mod
 
 INSTRUCTIONS:
 - Generate exactly ${numQuestions} unique, engaging, and educational questions about "${topic}".
-- Each question must test understanding, not just memorization, and be appropriate for a general audience.
+- ${difficultyPrompt}
+- Each question must test understanding, not just memorization, and be appropriate for the specified difficulty level.
 
 QUESTION REQUIREMENTS:
 - Each question must:
@@ -41,7 +64,7 @@ QUESTION REQUIREMENTS:
   • Be factually accurate and verifiable
   • Use proper grammar and punctuation
   • Cover a different aspect or subtopic (avoid repetition)
-  • Be written at a consistent difficulty level
+  • Be written at a ${difficulty} difficulty level
 
 OPTIONS REQUIREMENTS:
 - For each question, provide exactly 4 options (A, B, C, D):
@@ -65,7 +88,7 @@ Return ONLY a JSON array (no explanations, no markdown) with this exact structur
         },
       ],
       temperature: 0.7,
-      max_tokens: 2048,
+      max_tokens: 3000,
     }),
   });
 
